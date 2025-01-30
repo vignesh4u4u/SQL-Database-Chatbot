@@ -21,22 +21,6 @@ To set up and run the project locally, follow these steps:
 
 ```bash
 # Clone the repository
-git clone https://github.com/vignesh4u4u/SQL-Database-Chatbot.git
-cd sql-query-assistant
-
-# Create a virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the Streamlit app
-streamlit run app.py
-
-
-```bash
-# Clone the repository
 mkdir sql-query-assistant
 git clone https://github.com/vignesh4u4u/SQL-Database-Chatbot.git
 cd sql-query-assistant
@@ -70,4 +54,5 @@ Feel free to contribute to this project by following these steps:
 This project is licensed under the MIT License.
 
 ## Contact
-For any questions or suggestions, feel free to reach out via [vickys9715@gmailcom].
+For any questions or suggestions, feel free to reach out via [vickys9715@gmail.com](mailto:vickys9715@gmail.com).
+
