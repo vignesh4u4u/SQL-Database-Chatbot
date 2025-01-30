@@ -1,0 +1,5 @@
+pandas
+groq
+streamlit
+flask
+gevent
