@@ -1,27 +1,44 @@
 # SQL Query Assistant
 
 ## Overview
-SQL Query Assistant is an intelligent chat-based tool designed to interpret natural language queries, convert them into optimized SQL queries, and fetch relevant data from an SQLite database. This project utilizes Llama LLM and is built using the Streamlit framework for an interactive user experience.
+SQL Query Assistant is an intelligent chat-based tool designed to interpret natural language queries, convert them into optimized SQL queries, and fetch relevant data from an SQLite database. This project utilizes **Llama LLM** and is built using the **Streamlit** framework for an interactive user experience. 🤖💬
 
 ## Features
-- **Natural Language Processing**: Converts user queries into SQL commands.
-- **Data Interpretation**: Analyzes structured table data.
-- **Efficient Query Execution**: Runs optimized SQL queries in an SQLite database.
-- **Formatted Results**: Presents data in a structured and readable format.
-- **Detailed Explanations**: Provides insights into generated SQL queries and their execution results.
+- **Natural Language Processing**: Converts user queries into SQL commands. 🔄
+- **Data Interpretation**: Analyzes structured table data. 📊
+- **Efficient Query Execution**: Runs optimized SQL queries in an SQLite database. ⚡
+- **Formatted Results**: Presents data in a structured and readable format. 📝
+- **Detailed Explanations**: Provides insights into generated SQL queries and their execution results. 🧑‍💻
 
 ## Technologies Used
-- **Llama LLM**: For natural language understanding and query conversion.
-- **Streamlit**: For building an interactive and user-friendly web interface.
-- **SQLite**: Lightweight database to store and retrieve data efficiently.
-- **Python**: Core programming language for data processing and logic.
+- **Llama LLM**: For natural language understanding and query conversion. 🦙
+- **Streamlit**: For building an interactive and user-friendly web interface. 🌐
+- **SQLite**: Lightweight database to store and retrieve data efficiently. 🗃️
+- **Python**: Core programming language for data processing and logic. 🐍
 
 ## Installation
 To set up and run the project locally, follow these steps:
 
 ```bash
 # Clone the repository
-git clone <repository_url>
+git clone https://github.com/vignesh4u4u/SQL-Database-Chatbot.git
+cd sql-query-assistant
+
+# Create a virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the Streamlit app
+streamlit run app.py
+
+
+```bash
+# Clone the repository
+mkdir sql-query-assistant
+git clone https://github.com/vignesh4u4u/SQL-Database-Chatbot.git
 cd sql-query-assistant
 
 # Create a virtual environment
@@ -53,4 +70,4 @@ Feel free to contribute to this project by following these steps:
 This project is licensed under the MIT License.
 
 ## Contact
-For any questions or suggestions, feel free to reach out via [your email/contact info].
+For any questions or suggestions, feel free to reach out via [vickys9715@gmailcom].
