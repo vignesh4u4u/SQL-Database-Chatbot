@@ -53,19 +53,47 @@ Preserve exact spelling and case.
 Any column that contains uppercase letters MUST be double-quoted.
 
 ==================================================
-RULE 3 — DATE COLUMN SELECTION (CRITICAL)
+RULE 3 — DATE COLUMN SELECTION (CRITICAL – UPDATED)
 ==================================================
+When the user mentions a month, year, period, comparison, trend, or any time filter:
 
-When the user mentions a month, year, period, or "orders":
+1. Look at ALL date-related columns that actually exist in the SCHEMA.
+2. Prefer the column that best matches business intent AND has the requested month values in the SAMPLE DATA / DATE COLUMN VALUES section:
 
-1. Look at ALL date-related columns in the schema.
-2. Prefer the column that best matches business intent:
-   - "orders" / "order" / "how many orders" → prefer OrderEntryDate if it exists
-   - "order sheet" / "OrderSheet" → prefer OrderSheetDate
-   - "accept" → prefer OSAcceptDate
-   - otherwise choose the most relevant date column that actually contains the requested month in SAMPLE DATA
+   Priority order for production / manufacturing / FG / packing / cutting trends:
+   - StyleMeetActDate or SizeSetActDate  (actual process dates)
+   - Unit_MerchDelDate
+   - Fridate / TruckOffDate               (only if they contain the requested months)
+   - OrderEntryDate                       (fallback when only order-entry months exist)
 
-3. NEVER blindly use OrderSheetDate when OrderEntryDate has the matching month values.
+   Priority for pure order volume / “how many orders”:
+   - OrderEntryDate
+   - OrderSheetDate
+   - OSAcceptDate
+
+3. NEVER choose a date column that has ZERO rows in the requested month(s) according to the SAMPLE DATA / DATE COLUMN VALUES.
+4. If no date column has data in the requested months, still produce a valid query that returns empty result + a clear total_count = 0 (do not invent dates).
+
+==================================================
+RULE 3b — PRODUCTION / TREND METRICS (NEW)
+==================================================
+When the user says “production”, “prod”, “FG”, “finished goods”, “output”, “trends”, “compare Jan and Feb”:
+
+Primary production quantity columns (use the first that exists):
+  ProFGQty          → preferred for finished-goods production
+  PackingQty
+  InputQty
+  CuttingQty
+  OrderQty / POQty  → only if the above are missing
+
+Always return:
+- Month (or week) grain
+- Sum of the production metric
+- MoM absolute change
+- MoM % change
+- Optionally total_count via COUNT(*) OVER ()
+
+Never use SELECT *.
 
 ==================================================
 RULE 4 — TEXT DATE FORMAT
@@ -81,16 +109,17 @@ TO_DATE("ColumnName", 'DD-Mon-YY')
 Never compare the TEXT column directly to a DATE.
 
 ==================================================
-RULE 5 — MONTH FILTERING
+RULE 5 — MONTH FILTERING (keep, but reinforce)
 ==================================================
-
-For a full calendar month use half-open range:
+For a full calendar month use half-open range after TO_DATE:
 
 TO_DATE("CorrectDateColumn", 'DD-Mon-YY') >= DATE 'YYYY-MM-01'
-AND
-TO_DATE("CorrectDateColumn", 'DD-Mon-YY') < DATE 'YYYY-MM-01' + INTERVAL '1 month'
+AND TO_DATE("CorrectDateColumn", 'DD-Mon-YY') < DATE 'YYYY-MM-01' + INTERVAL '1 month'
 
-If the user says only "FEB" or "February" with no year → use current year {now.date().year}.
+If user says only “JAN” / “FEB” with no year → use current year {now.date().year}.
+
+For “compare Jan and Feb” always produce both months in one result set (use DATE_TRUNC or GROUP BY month).
+
 
 ==================================================
 RULE 6 — COUNT + DATA
@@ -138,6 +167,11 @@ Never use COUNT(*) to calculate the number of columns.
 Always use the exact column count provided above: {column_count}
 
 ==================================================
+RULE 9 — EMPTY RESULT SAFETY (NEW)
+==================================================
+If the chosen date column truly has no rows in the requested period, the query must still be valid and return zero rows (or a single row with total_production_qty = 0). Never invent data or change the filter silently.
+
+==================================================
 FINAL CHECK BEFORE OUTPUT
 ==================================================
 
@@ -154,4 +188,7 @@ USER QUERY
 ==================================================
 
 {user_query}
+
+
+(*Note: Final colums field names filter time select 1-20 range. If user spicially mention all fields time only give all fields( columns features).*
 """).strip()
