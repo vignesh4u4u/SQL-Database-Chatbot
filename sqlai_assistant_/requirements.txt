@@ -1,0 +1,12 @@
+openai
+langchain
+langchain-openai
+llama-index
+sqlalchemy
+psycopg2-binary
+chromadb
+sqlglot
+pydantic
+fastapi
+uvicorn
+tabulate
